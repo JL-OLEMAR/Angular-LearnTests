@@ -38,4 +38,20 @@ describe('(1) Another way to initialize the doctorService, MedicosComponent', ()
     medicoComponent.agregarMedico()
     expect(medicoComponent.mensajeError).toBe(error)
   })
+
+  it('Must call the service to delete a doctor', () => {
+    const id = '1'
+    spyOn(window, 'confirm').and.returnValue(true)
+    const espia = spyOn(medicoService, 'borrarMedico').and.returnValue(EMPTY)
+    medicoComponent.borrarMedico(id)
+    expect(espia).toHaveBeenCalledWith(id)
+  })
+
+  it('Should NOT call the service to delete a doctor', () => {
+    const id = '1'
+    spyOn(window, 'confirm').and.returnValue(false)
+    const espia = spyOn(medicoService, 'borrarMedico').and.returnValue(EMPTY)
+    medicoComponent.borrarMedico(id)
+    expect(espia).not.toHaveBeenCalledWith(id)
+  })
 })
