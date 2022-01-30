@@ -1,4 +1,4 @@
-import { from } from 'rxjs'
+import { from, EMPTY } from 'rxjs'
 import { MedicosService } from './medicos.service'
 import { MedicosComponent } from './medicos.component'
 
@@ -18,5 +18,12 @@ describe('(1) Another way to initialize the doctorService, MedicosComponent', ()
 
     medicoComponent.ngOnInit()
     expect(medicoComponent.medicos.length).toBeGreaterThan(0)
+  })
+
+  it('Must call the service to add a doctor', () => {
+    // Mock the service
+    const espia = spyOn(medicoService, 'agregarMedico').and.callFake(() => EMPTY)
+    medicoComponent.agregarMedico()
+    expect(espia).toHaveBeenCalled()
   })
 })
