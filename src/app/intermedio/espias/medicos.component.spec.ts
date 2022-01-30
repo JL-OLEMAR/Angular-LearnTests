@@ -1,4 +1,4 @@
-import { from, EMPTY } from 'rxjs'
+import { from, EMPTY, throwError } from 'rxjs'
 import { MedicosService } from './medicos.service'
 import { MedicosComponent } from './medicos.component'
 
@@ -30,5 +30,12 @@ describe('(1) Another way to initialize the doctorService, MedicosComponent', ()
     spyOn(medicoService, 'agregarMedico').and.returnValue(from([medico]))
     medicoComponent.agregarMedico()
     expect(medicoComponent.medicos.indexOf(medico)).toBeGreaterThanOrEqual(0)
+  })
+
+  it('It should show the error message, if it fails to add a new doctor', () => {
+    const error = 'Error al agregar el médico'
+    spyOn(medicoService, 'agregarMedico').and.returnValue(throwError(() => error))
+    medicoComponent.agregarMedico()
+    expect(medicoComponent.mensajeError).toBe(error)
   })
 })
