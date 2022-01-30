@@ -12,10 +12,8 @@ describe('(1) Another way to initialize the doctorService, MedicosComponent', ()
 
   it('Init: Must load the doctors', () => {
     const medicos = ['medico1', 'medico2', 'medico3']
-
     // Mock the service
     spyOn(medicoService, 'getMedicos').and.callFake(() => from([medicos]))
-
     medicoComponent.ngOnInit()
     expect(medicoComponent.medicos.length).toBeGreaterThan(0)
   })
@@ -25,5 +23,12 @@ describe('(1) Another way to initialize the doctorService, MedicosComponent', ()
     const espia = spyOn(medicoService, 'agregarMedico').and.callFake(() => EMPTY)
     medicoComponent.agregarMedico()
     expect(espia).toHaveBeenCalled()
+  })
+
+  it('Must add a new doctor to the array of doctors', () => {
+    const medico = { id: 1, nombre: 'Juan' }
+    spyOn(medicoService, 'agregarMedico').and.returnValue(from([medico]))
+    medicoComponent.agregarMedico()
+    expect(medicoComponent.medicos.indexOf(medico)).toBeGreaterThanOrEqual(0)
   })
 })
